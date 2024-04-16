@@ -1,11 +1,11 @@
 @page "/calc-ExchangeRate"
 @rendermode InteractiveServer
-@*
-@inject HttpClient HttpClient*@
-@*
-@using System.Text.Json
+
+@inject HttpClient HttpClient
+@inject HttpClient Http
+@inject GetData1 getdata1
 @using System.Net.Http
-@using System.Threading.Tasks;*@
+@using System.Net.Http.Json
 
 @*1. 환율 페이지 형식 만들기
   2. 환율 API 가져오기*@
@@ -25,9 +25,15 @@
     }
 
     .currency-unit{
-        width: 300px;
+        width: 50px;
         height: 80px;
         font-size: 60px;
+    }
+
+    .explain_currencyvalue{
+        width: 300px;
+        height: 80px;
+        font-size: 100px;
     }
 </style>
 
@@ -37,6 +43,7 @@
 
 <label class="display-calc">@this.DisplayValue</label>
 <label class="currency-unit">@this.CurrencyUnit</label>
+<label class="currency">@this.explain_currencyvalue</label>
 
 <div style="display:flex">
     <button class="button-number" @onclick="() => clickButton(7)">7</button>
@@ -64,49 +71,34 @@
 
 @code {
 
-    private int DisplayValue { get; set; } = 0;
-    private int ExchangeValue { get; set; } = 0;
+    private float DisplayValue { get; set; } = 0;
+    private float Currency {get; set;}=0;
     private string CurrencyUnit { get; set; } = "\u20A9";
-    @*private ExchangeRateInformation[] Infor;
+    private string explain_currencyvalue { get; set; } = " ";
 
-    protected override async Task OnInitializedAsync()
+
+    private void writeStatus()
     {
-        string currentDate = DateTime.Now.ToString("yyyyMMdd");
-        string url = $"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=0MKRDFz4g6nOf8Id5lBUgxCfceeVrud1&searchdate={currentDate}&data=AP01";
-        string jsonData = await HttpClient.GetStringAsync(url);
-        Infor = JsonSerializer.Deserialize<ExchangeRateInformation[]>(jsonData);
-        Infor = Infor.Where(c => c.cur_nm == "미국 달러").ToArray();
-        Console.WriteLine($"{Infor}");
+        Console.WriteLine($"DisplayValue[{this.DisplayValue}], currency[{this. Currency}]");
     }
-
-    public class ExchangeRateInformation
-    {
-        public int result { get; set; }
-        public string cur_unit { get; set; }
-        public string ttb { get; set; }
-        public string tts { get; set; }
-        public string deal_bas_r { get; set; }
-        public string bkpr { get; set; }
-        public string yy_efee_r { get; set; }
-        public string ten_dd_efee_r { get; set; }
-        public string kftc_bkpr { get; set; }
-        public string kftc_deal_bas_r { get; set; }
-        public string cur_nm { get; set; }
-    }*@
-
-
 
     private void clickButton(int value)
     {
         DisplayValue = DisplayValue * 10 + value;
-
         writeStatus();
     }
 
+    //환율 바꾸는거 보여주는거 API 요청(get) 미국달러만 가져오기 DisplayValue 바꿔주기.
+
     private void clickResult()
     {
-        @*환율 바꾸는거 보여주는거 DisplayValue를 바꿔주기, API 가져오기*@
         CurrencyUnit = "$";
+
+        Currency = float.Parse(@getdata1.Rate.deal_bas_r.Replace(",", ""));
+
+        explain_currencyvalue = $"   오늘의 환율은 1달러당 {@getdata1.Rate.deal_bas_r}원 입니다.";
+
+        DisplayValue = DisplayValue / Currency;
 
         writeStatus();
     }
@@ -118,8 +110,6 @@
         writeStatus();
     }
 
-    private void writeStatus()
-    {
-        Console.WriteLine($"DisplayValue[{this.DisplayValue}] ExchangeValue [{this.ExchangeValue}] ");
-    }
+
 }
+
