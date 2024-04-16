@@ -42,7 +42,7 @@
 </div>
 
 <div style="display:flex">
-    <button class="button-number" ></button>
+    <button class="button-number"></button>
     <button class="button-number" @onclick="() => clickButton(0)">0</button>
     <button class="button-number"></button>
     <button class="button-number" @onclick="clickResult">=</button>
@@ -62,7 +62,7 @@
     private void clickButton(int value)
     {
         DisplayValue = DisplayValue * 10 + value;
-     
+
         writeStatus();
     }
 
@@ -71,7 +71,7 @@
         this.op = CalcOp.Plus;
         StoredValue = DisplayValue;
         DisplayValue = 0;
-     
+
         writeStatus();
     }
 
@@ -80,7 +80,7 @@
         this.op = CalcOp.Minus;
         StoredValue = DisplayValue;
         DisplayValue = 0;
-     
+
         writeStatus();
     }
 
@@ -97,7 +97,7 @@
 
         StoredValue = 0;
         op = CalcOp.None;
-     
+
         writeStatus();
     }
 

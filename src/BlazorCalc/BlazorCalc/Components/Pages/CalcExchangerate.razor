@@ -1,0 +1,125 @@
+@page "/calc-ExchangeRate"
+@rendermode InteractiveServer
+@*
+@inject HttpClient HttpClient*@
+@*
+@using System.Text.Json
+@using System.Net.Http
+@using System.Threading.Tasks;*@
+
+@*1. 환율 페이지 형식 만들기
+  2. 환율 API 가져오기*@
+
+<style>
+    .display-calc {
+        width: 300px;
+        text-align: right;
+        font-size: 64px;
+    }
+
+    .button-number {
+        height: 120px;
+        width: 120px;
+        background-color: lightskyblue;
+        font-size: 24px;
+    }
+
+    .currency-unit{
+        width: 300px;
+        height: 80px;
+        font-size: 60px;
+    }
+</style>
+
+<PageTitle>Calc_Exchangerate</PageTitle>
+
+<h1> &#x20A9 to $ Exchanger</h1> @*\ to $ Exchanger*@
+
+<label class="display-calc">@this.DisplayValue</label>
+<label class="currency-unit">@this.CurrencyUnit</label>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(7)">7</button>
+    <button class="button-number" @onclick="() => clickButton(8)">8</button>
+    <button class="button-number" @onclick="() => clickButton(9)">9</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(4)">4</button>
+    <button class="button-number" @onclick="() => clickButton(5)">5</button>
+    <button class="button-number" @onclick="() => clickButton(6)">6</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(1)">1</button>
+    <button class="button-number" @onclick="() => clickButton(2)">2</button>
+    <button class="button-number" @onclick="() => clickButton(3)">3</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="clickClear">C</button>
+    <button class="button-number" @onclick="() => clickButton(0)">0</button>
+    <button class="button-number" @onclick="clickResult">=</button>
+</div>
+
+@code {
+
+    private int DisplayValue { get; set; } = 0;
+    private int ExchangeValue { get; set; } = 0;
+    private string CurrencyUnit { get; set; } = "\u20A9";
+    @*private ExchangeRateInformation[] Infor;
+
+    protected override async Task OnInitializedAsync()
+    {
+        string currentDate = DateTime.Now.ToString("yyyyMMdd");
+        string url = $"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=0MKRDFz4g6nOf8Id5lBUgxCfceeVrud1&searchdate={currentDate}&data=AP01";
+        string jsonData = await HttpClient.GetStringAsync(url);
+        Infor = JsonSerializer.Deserialize<ExchangeRateInformation[]>(jsonData);
+        Infor = Infor.Where(c => c.cur_nm == "미국 달러").ToArray();
+        Console.WriteLine($"{Infor}");
+    }
+
+    public class ExchangeRateInformation
+    {
+        public int result { get; set; }
+        public string cur_unit { get; set; }
+        public string ttb { get; set; }
+        public string tts { get; set; }
+        public string deal_bas_r { get; set; }
+        public string bkpr { get; set; }
+        public string yy_efee_r { get; set; }
+        public string ten_dd_efee_r { get; set; }
+        public string kftc_bkpr { get; set; }
+        public string kftc_deal_bas_r { get; set; }
+        public string cur_nm { get; set; }
+    }*@
+
+
+
+    private void clickButton(int value)
+    {
+        DisplayValue = DisplayValue * 10 + value;
+
+        writeStatus();
+    }
+
+    private void clickResult()
+    {
+        @*환율 바꾸는거 보여주는거 DisplayValue를 바꿔주기, API 가져오기*@
+        CurrencyUnit = "$";
+
+        writeStatus();
+    }
+
+    private void clickClear()
+    {
+        DisplayValue = 0;
+        CurrencyUnit = "\u20A9";
+        writeStatus();
+    }
+
+    private void writeStatus()
+    {
+        Console.WriteLine($"DisplayValue[{this.DisplayValue}] ExchangeValue [{this.ExchangeValue}] ");
+    }
+}
