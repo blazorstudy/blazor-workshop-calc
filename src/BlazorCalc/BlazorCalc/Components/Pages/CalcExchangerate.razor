@@ -3,7 +3,10 @@
 
 @inject HttpClient HttpClient
 @inject HttpClient Http
-@inject GetData1 getdata1
+
+@*GetData1.cs 파일에서 환율 정보 담긴 변수 사용*@
+@inject GetData1 getdata1   
+
 @using System.Net.Http
 @using System.Net.Http.Json
 
@@ -24,13 +27,13 @@
         font-size: 24px;
     }
 
-    .currency-unit{
+    .currency-unit{  @*\ or $*@
         width: 50px;
         height: 80px;
         font-size: 60px;
     }
 
-    .explain_currencyvalue{
+    .explain_currencyvalue{  @*오늘 환율 정보를 알려줌.*@
         width: 300px;
         height: 80px;
         font-size: 100px;
@@ -94,7 +97,7 @@
     {
         CurrencyUnit = "$";
 
-        Currency = float.Parse(@getdata1.Rate.deal_bas_r.Replace(",", ""));
+        Currency = float.Parse(@getdata1.Rate.deal_bas_r.Replace(",", ""));  //받은 환율 정보가 "1,386.34" 이런 형식으로 받아져서 , 을 빼고 float으로 형변환.
 
         explain_currencyvalue = $"   오늘의 환율은 1달러당 {@getdata1.Rate.deal_bas_r}원 입니다.";
 

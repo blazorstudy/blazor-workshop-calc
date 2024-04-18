@@ -3,7 +3,7 @@
 
 @inject CalcState calcState;
 
-@*사용자 인터페이스에 버튼 표시, 버튼 클래스는 calc,
+@*사용자 인터페이스에 버튼 표시, 버튼 클래스는 calc(CalcButton.razor.css 정의),
 버튼 클릭시에 ClickButton 메서드 호출, 표시 텍스트는 DataValue 매개변수에 의해 결정*@
 
 <button class="calc" @onclick="ClickButton">@DataValue</button>
