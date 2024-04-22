@@ -1,17 +1,16 @@
-@page "/calc-ExchangeRate"
+ï»¿@page "/calc-ExchangeRate"
 @rendermode InteractiveServer
 
 @inject HttpClient HttpClient
 @inject HttpClient Http
 
-@*GetData1.cs ÆÄÀÏ¿¡¼­ È¯À² Á¤º¸ ´ã±ä º¯¼ö »ç¿ë*@
-@inject GetData1 getdata1   
-
 @using System.Net.Http
-@using System.Net.Http.Json
+@using System.Text.Json;
+@using System.Threading.Tasks;
+@using System;
 
-@*1. È¯À² ÆäÀÌÁö Çü½Ä ¸¸µé±â
-  2. È¯À² API °¡Á®¿À±â*@
+@*1. í™˜ìœ¨ í˜ì´ì§€ í˜•ì‹ ë§Œë“¤ê¸°
+  2. í™˜ìœ¨ API ê°€ì ¸ì˜¤ê¸°*@
 
 <style>
     .display-calc {
@@ -33,7 +32,7 @@
         font-size: 60px;
     }
 
-    .explain_currencyvalue{  @*¿À´Ã È¯À² Á¤º¸¸¦ ¾Ë·ÁÁÜ.*@
+    .explain_currencyvalue{  @*ì˜¤ëŠ˜ í™˜ìœ¨ ì •ë³´ë¥¼ ì•Œë ¤ì¤Œ.*@
         width: 300px;
         height: 80px;
         font-size: 100px;
@@ -79,6 +78,38 @@
     private string CurrencyUnit { get; set; } = "\u20A9";
     private string explain_currencyvalue { get; set; } = " ";
 
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadExchangeRate();
+    }
+
+    private async Task LoadExchangeRate()
+    {
+        string currentDate = DateTime.Now.ToString("yyyyMMdd");
+        var response = await HttpClient.GetAsync($"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=0MKRDFz4g6nOf8Id5lBUgxCfceeVrud1&searchdate={currentDate}&data=AP01");
+
+        if (response.IsSuccessStatusCode)
+        {
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            var exchangeRates = JsonSerializer.Deserialize<ExchangeRate[]>(jsonResponse);
+            var usd = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "USD");
+
+            if (usd != null)
+            {
+                Currency = float.Parse(usd.deal_bas_r);
+                explain_currencyvalue = $"1\u20A9 = {usd.deal_bas_r}$";
+            }
+            else
+            {
+                Console.WriteLine("USD ì •ë³´ë¥¼ ê°€ì ¸ì˜¬ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("í™˜ìœ¨ APIì— ì ‘ì†í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+        }
+    }
+
 
     private void writeStatus()
     {
@@ -91,18 +122,12 @@
         writeStatus();
     }
 
-    //È¯À² ¹Ù²Ù´Â°Å º¸¿©ÁÖ´Â°Å API ¿äÃ»(get) ¹Ì±¹´Ş·¯¸¸ °¡Á®¿À±â DisplayValue ¹Ù²ãÁÖ±â.
+    //í™˜ìœ¨ ë°”ê¾¸ëŠ”ê±° ë³´ì—¬ì£¼ëŠ”ê±° API ìš”ì²­(get) ë¯¸êµ­ë‹¬ëŸ¬ë§Œ ê°€ì ¸ì˜¤ê¸° DisplayValue ë°”ê¿”ì£¼ê¸°.
 
-    private void clickResult()
+    private async void clickResult()
     {
         CurrencyUnit = "$";
-
-        Currency = float.Parse(@getdata1.Rate.deal_bas_r.Replace(",", ""));  //¹ŞÀº È¯À² Á¤º¸°¡ "1,386.34" ÀÌ·± Çü½ÄÀ¸·Î ¹Ş¾ÆÁ®¼­ , À» »©°í floatÀ¸·Î Çüº¯È¯.
-
-        explain_currencyvalue = $"   ¿À´ÃÀÇ È¯À²Àº 1´Ş·¯´ç {@getdata1.Rate.deal_bas_r}¿ø ÀÔ´Ï´Ù.";
-
         DisplayValue = DisplayValue / Currency;
-
         writeStatus();
     }
 
@@ -113,6 +138,21 @@
         writeStatus();
     }
 
+    public class ExchangeRate
+    {
+        public int result { get; set; }
+        public string cur_unit { get; set; }
+        public string ttb { get; set; }
+        public string tts { get; set; }
+        public string deal_bas_r { get; set; }
+        public string bkpr { get; set; }
+        public string yy_efee_r { get; set; }
+        public string ten_dd_efee_r { get; set; }
+        public string kftc_bkpr { get; set; }
+        public string kftc_deal_bas_r { get; set; }
+        public string cur_nm { get; set; }
+
+    }
+
 
 }
-
