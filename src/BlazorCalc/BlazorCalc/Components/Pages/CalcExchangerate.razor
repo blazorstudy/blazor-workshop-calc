@@ -1,8 +1,7 @@
 ﻿@page "/calc-ExchangeRate"
 @rendermode InteractiveServer
-
+@inject IConfiguration Configuration
 @inject HttpClient HttpClient
-@inject HttpClient Http
 
 @using System.Net.Http
 @using System.Text.Json;
@@ -43,8 +42,11 @@
 
 <h1> &#x20A9 to $ Exchanger</h1> @*\ to $ Exchanger*@
 
-<label class="display-calc">@this.DisplayValue</label>
-<label class="currency-unit">@this.CurrencyUnit</label>
+<div style="display:flex">
+    <label class="display-calc">@this.DisplayValue.ToString("#,#0.####")</label>
+    <label class="currency-unit">@this.CurrencyUnit</label>
+</div>
+
 <label class="currency">@this.explain_currencyvalue</label>
 
 <div style="display:flex">
@@ -72,72 +74,6 @@
 </div>
 
 @code {
-
-    private float DisplayValue { get; set; } = 0;
-    private float Currency {get; set;}=0;
-    private string CurrencyUnit { get; set; } = "\u20A9";
-    private string explain_currencyvalue { get; set; } = " ";
-
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadExchangeRate();
-    }
-
-    private async Task LoadExchangeRate()
-    {
-        string currentDate = DateTime.Now.ToString("yyyyMMdd");
-        var response = await HttpClient.GetAsync($"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=0MKRDFz4g6nOf8Id5lBUgxCfceeVrud1&searchdate={currentDate}&data=AP01");
-
-        if (response.IsSuccessStatusCode)
-        {
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-            var exchangeRates = JsonSerializer.Deserialize<ExchangeRate[]>(jsonResponse);
-            var usd = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "USD");
-
-            if (usd != null)
-            {
-                Currency = float.Parse(usd.deal_bas_r);
-                explain_currencyvalue = $"1\u20A9 = {usd.deal_bas_r}$";
-            }
-            else
-            {
-                Console.WriteLine("USD 정보를 가져올 수 없습니다.");
-            }
-        }
-        else
-        {
-            Console.WriteLine("환율 API에 접속할 수 없습니다.");
-        }
-    }
-
-
-    private void writeStatus()
-    {
-        Console.WriteLine($"DisplayValue[{this.DisplayValue}], currency[{this. Currency}]");
-    }
-
-    private void clickButton(int value)
-    {
-        DisplayValue = DisplayValue * 10 + value;
-        writeStatus();
-    }
-
-    //환율 바꾸는거 보여주는거 API 요청(get) 미국달러만 가져오기 DisplayValue 바꿔주기.
-
-    private async void clickResult()
-    {
-        CurrencyUnit = "$";
-        DisplayValue = DisplayValue / Currency;
-        writeStatus();
-    }
-
-    private void clickClear()
-    {
-        DisplayValue = 0;
-        CurrencyUnit = "\u20A9";
-        writeStatus();
-    }
-
     public class ExchangeRate
     {
         public int result { get; set; }
@@ -151,8 +87,94 @@
         public string kftc_bkpr { get; set; }
         public string kftc_deal_bas_r { get; set; }
         public string cur_nm { get; set; }
-
     }
 
+    private float DisplayValue { get; set; } = 0;
+    private float Currency {get; set;} = 0;
+    private string CurrencyUnit { get; set; } = "\u20A9";
+    private string explain_currencyvalue { get; set; } = " ";
 
+    // 이전 API 호출 방식
+    // private async Task LoadExchangeRate()
+    // {
+    //     string currentDate = DateTime.Now.ToString("yyyyMMdd");
+    //     var response = await HttpClient.GetAsync($"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=0MKRDFz4g6nOf8Id5lBUgxCfceeVrud1&searchdate={currentDate}&data=AP01");
+
+    //     if (response.IsSuccessStatusCode)
+    //     {
+    //         string jsonResponse = await response.Content.ReadAsStringAsync();
+    //         var exchangeRates = JsonSerializer.Deserialize<ExchangeRate[]>(jsonResponse);
+    //         var usd = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "USD");
+
+    //         if (usd != null)
+    //         {
+    //             Currency = float.Parse(usd.deal_bas_r);
+    //             explain_currencyvalue = $"1\u20A9 = {usd.deal_bas_r}$";
+    //         }
+    //         else
+    //         {
+    //             Console.WriteLine("USD 정보를 가져올 수 없습니다.");
+    //         }
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("환율 API에 접속할 수 없습니다.");
+    //     }
+    // }
+
+    private async Task getExchangeJson()
+    {
+        string currentDate = DateTime.Now.ToString("yyyyMMdd");
+
+        // AuthKey를 appsettings.Development.json에서 가져오면 하드코딩하지 않아도 됩니다.
+        // appsettings.Development.json는 보통 push하지 않는 개인화된 정보를 가집니다.
+        // https://holjjack.tistory.com/232
+        string authKey = Configuration["ApiAuthKey"] ?? string.Empty;
+        string requestUrl = $"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={authKey}&searchdate={currentDate}&data=AP01";
+
+        // 응답이 json인 경우 쉽게 처리 해주는 확장 함수가 있습니다.
+        var exchangeRates = await HttpClient.GetFromJsonAsync<ExchangeRate[]>(requestUrl);
+        var usd = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "USD");
+        if (usd != null)
+        {
+            Currency = float.Parse(usd.deal_bas_r);
+            explain_currencyvalue = $"1\u20A9 = {usd.deal_bas_r}$";
+        }
+        else
+        {
+            Console.WriteLine("USD 정보를 가져올 수 없습니다.");
+        }
+    }
+
+    private void writeStatus()
+    {
+        Console.WriteLine($"DisplayValue[{this.DisplayValue}], currency[{this. Currency}]");
+    }
+
+    private void clickButton(int value)
+    {
+        DisplayValue = DisplayValue * 10 + value;
+        writeStatus();
+    }
+
+    private async void clickResult()
+    {
+        await getExchangeJson();
+
+        CurrencyUnit = "$";
+        float temp = DisplayValue;
+        DisplayValue = temp / Currency;
+    
+        // browser가 갱신하도록 이벤트를 줄 수 있습니다.
+        StateHasChanged();
+
+        writeStatus();
+    }
+
+    private void clickClear()
+    {
+        DisplayValue = 0;
+        CurrencyUnit = "\u20A9";
+        writeStatus();
+    }
 }
