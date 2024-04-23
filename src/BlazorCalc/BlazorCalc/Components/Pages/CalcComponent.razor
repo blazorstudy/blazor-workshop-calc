@@ -1,12 +1,11 @@
 ﻿@page "/calc-component"
-@using BlazorCalc.Components.Calc
+@using BlazorCalc.Components.Calc 
 @rendermode InteractiveServer
 @inject CalcState calcState;
 
-
 <h3>CalcComponent</h3>
 
-<CalcLabel/>
+<CalcLabel />
 
 <div style="display:flex">
     <CalcButton DataValue="7" />

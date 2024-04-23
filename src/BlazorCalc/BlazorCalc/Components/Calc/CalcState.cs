@@ -13,7 +13,7 @@ public class CalcState
 
     private CalcOp op = CalcOp.None;
 
-    public event Action? Notify;
+    public event Action? Notify; 
     public int DisplayValue { get; set; } = 0;
     public int StoredValue { get; set; } = 0;
 
@@ -38,7 +38,7 @@ public class CalcState
             case "7":
             case "8":
             case "9":
-                DisplayValue = DisplayValue * 10 + int.Parse(value);
+                DisplayValue = DisplayValue * 10 + int.Parse(value); 
                 break;
 
             case "+":
