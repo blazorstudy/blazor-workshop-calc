@@ -1,9 +1,7 @@
 ﻿@page "/calc-component"
-@using BlazorCalc.Components.Calc @*Calc 가져와서 쓰는거*@
-@*이 컴포넌트는 서버에서 동작하고, 클라이언트에는 컴포넌트의 변경된 상태가 전송되어 렌더링됨.*@
+@using BlazorCalc.Components.Calc 
 @rendermode InteractiveServer
 @inject CalcState calcState;
-
 
 <h3>CalcComponent</h3>
 
@@ -38,7 +36,6 @@
 </div>
 
 @code {
-    @*컴포넌트 초기화 시에 OnInitialized 메서드에서 CalcState.cs의 Clear() 메소드 호출*@
     protected override void OnInitialized()
     {
         base.OnInitialized();

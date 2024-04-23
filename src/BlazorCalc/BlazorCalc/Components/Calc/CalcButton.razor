@@ -1,23 +1,11 @@
-﻿@*CalcState 타입의 calcState 객체를 현재 컴포넌트에 주입함.=> 계산기 상태를 관리하는 클래스이며, 이 객체를 통해
-버튼 클릭 시 계산기 상태를 변경함*@
-
-@inject CalcState calcState;
-
-@*사용자 인터페이스에 버튼 표시, 버튼 클래스는 calc(CalcButton.razor.css 정의),
-버튼 클릭시에 ClickButton 메서드 호출, 표시 텍스트는 DataValue 매개변수에 의해 결정*@
+﻿@inject CalcState calcState;
 
 <button class="calc" @onclick="ClickButton">@DataValue</button>
 
-@*컴포넌트의 로직을 포함하는 블록*@
-
 @code {
 
-    @*외부에서 이 컴포넌트로 전달할 수 있는 매개변수인 DataValue 정의
-버튼에 표시될 데이터 값을 나타냄. 기본값이 "0".*@
     [Parameter]
     public string DataValue { get; set; } = "0";
-
-    @*위에서 버튼을 클릭했을 때 호출되는 ClickButton 함수*@
 
     private void ClickButton()
     {

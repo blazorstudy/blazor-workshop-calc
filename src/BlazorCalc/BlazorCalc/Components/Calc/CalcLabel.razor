@@ -1,19 +1,12 @@
-﻿@*CalcState 클래스를 주입하여 사용*@
-
-@inject CalcState calcState;
-
-@*계산기 디스플레이에 현재 DisplayValue를 표시*@
+﻿@inject CalcState calcState;
 
 <label class="calc">@calcState.DisplayValue</label>
 
 @code
 {
-    @* CalcState의 Notify 이벤트가 발생할 때마다 디스플레이 업데이트*@
-    @*OnInitialized는 원래 Blazor에 있었던 함수로 컴포넌트가 초기화될 때 이 메서드가 자동적으로 호출*@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        @*+=로 이벤트에 새로운 핸들러 추가/ () => 로 매개변수를 받지 않고 해당 함수 호출*@
         calcState.Notify += () => InvokeAsync(StateHasChanged); 
     }
 }
