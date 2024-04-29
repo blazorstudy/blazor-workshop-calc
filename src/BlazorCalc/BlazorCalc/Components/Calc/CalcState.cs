@@ -39,7 +39,6 @@ public class CalcState
             case "8":
             case "9":
                 DisplayValue = DisplayValue * 10 + int.Parse(value); 
-                //문자열 정수 변환 :  int.Parse(value)
                 break;
 
             case "+":
@@ -71,8 +70,8 @@ public class CalcState
                 break;
         }
 
-        writeStatus(); // 현재 상태를 콘솔에 출력합니다.
-        Notify?.Invoke(); // 상태 변경을 알리는 이벤트를 발생시킵니다.
+        writeStatus();
+        Notify?.Invoke();
     }
 
     private void writeStatus()

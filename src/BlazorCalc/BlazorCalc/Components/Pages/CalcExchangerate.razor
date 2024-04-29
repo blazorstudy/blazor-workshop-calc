@@ -1,14 +1,12 @@
-@page "/calc-ExchangeRate"
+ï»¿@page "/calc-ExchangeRate"
 @rendermode InteractiveServer
-@*
-@inject HttpClient HttpClient*@
-@*
-@using System.Text.Json
-@using System.Net.Http
-@using System.Threading.Tasks;*@
+@inject IConfiguration Configuration
+@inject HttpClient HttpClient
 
-@*1. È¯À² ÆäÀÌÁö Çü½Ä ¸¸µé±â
-  2. È¯À² API °¡Á®¿À±â*@
+@using System.Net.Http
+@using System.Text.Json;
+@using System.Threading.Tasks;
+@using System;
 
 <style>
     .display-calc {
@@ -25,18 +23,28 @@
     }
 
     .currency-unit{
-        width: 300px;
+        width: 50px;
         height: 80px;
         font-size: 60px;
+    }
+
+    .explain_currencyvalue{
+        width: 300px;
+        height: 80px;
+        font-size: 100px;
     }
 </style>
 
 <PageTitle>Calc_Exchangerate</PageTitle>
 
-<h1> &#x20A9 to $ Exchanger</h1> @*\ to $ Exchanger*@
+<h1> &#x20A9 to $ Exchanger</h1>
 
-<label class="display-calc">@this.DisplayValue</label>
-<label class="currency-unit">@this.CurrencyUnit</label>
+<div style="display:flex">
+    <label class="display-calc">@this.DisplayValue.ToString("#,#0.####")</label>
+    <label class="currency-unit">@this.CurrencyUnit</label>
+</div>
+
+<label class="currency">@this.explain_currencyvalue</label>
 
 <div style="display:flex">
     <button class="button-number" @onclick="() => clickButton(7)">7</button>
@@ -63,23 +71,7 @@
 </div>
 
 @code {
-
-    private int DisplayValue { get; set; } = 0;
-    private int ExchangeValue { get; set; } = 0;
-    private string CurrencyUnit { get; set; } = "\u20A9";
-    @*private ExchangeRateInformation[] Infor;
-
-    protected override async Task OnInitializedAsync()
-    {
-        string currentDate = DateTime.Now.ToString("yyyyMMdd");
-        string url = $"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=0MKRDFz4g6nOf8Id5lBUgxCfceeVrud1&searchdate={currentDate}&data=AP01";
-        string jsonData = await HttpClient.GetStringAsync(url);
-        Infor = JsonSerializer.Deserialize<ExchangeRateInformation[]>(jsonData);
-        Infor = Infor.Where(c => c.cur_nm == "¹Ì±¹ ´Þ·¯").ToArray();
-        Console.WriteLine($"{Infor}");
-    }
-
-    public class ExchangeRateInformation
+    public class ExchangeRate
     {
         public int result { get; set; }
         public string cur_unit { get; set; }
@@ -92,21 +84,53 @@
         public string kftc_bkpr { get; set; }
         public string kftc_deal_bas_r { get; set; }
         public string cur_nm { get; set; }
-    }*@
+    }
 
+    private float DisplayValue { get; set; } = 0;
+    private float Currency {get; set;} = 0;
+    private string CurrencyUnit { get; set; } = "\u20A9";
+    private string explain_currencyvalue { get; set; } = " ";
 
+    private async Task getExchangeJson()
+    {
+        string currentDate = DateTime.Now.ToString("yyyyMMdd");
+        string authKey = Configuration["ApiAuthKey"] ?? string.Empty;
+        string requestUrl = $"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={authKey}&searchdate={currentDate}&data=AP01";
+
+     
+        var exchangeRates = await HttpClient.GetFromJsonAsync<ExchangeRate[]>(requestUrl);
+        var usd = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "USD");
+        if (usd != null)
+        {
+            Currency = float.Parse(usd.deal_bas_r);
+            explain_currencyvalue = $"1\u20A9 = {usd.deal_bas_r}$";
+        }
+        else
+        {
+            Console.WriteLine("USD ì •ë³´ë¥¼ ê°€ì ¸ì˜¬ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+        }
+    }
+
+    private void writeStatus()
+    {
+        Console.WriteLine($"DisplayValue[{this.DisplayValue}], currency[{this. Currency}]");
+    }
 
     private void clickButton(int value)
     {
         DisplayValue = DisplayValue * 10 + value;
-
         writeStatus();
     }
 
-    private void clickResult()
+    private async void clickResult()
     {
-        @*È¯À² ¹Ù²Ù´Â°Å º¸¿©ÁÖ´Â°Å DisplayValue¸¦ ¹Ù²ãÁÖ±â, API °¡Á®¿À±â*@
+        await getExchangeJson();
+
         CurrencyUnit = "$";
+        float temp = DisplayValue;
+        DisplayValue = temp / Currency;
+    
+        StateHasChanged();
 
         writeStatus();
     }
@@ -116,10 +140,5 @@
         DisplayValue = 0;
         CurrencyUnit = "\u20A9";
         writeStatus();
-    }
-
-    private void writeStatus()
-    {
-        Console.WriteLine($"DisplayValue[{this.DisplayValue}] ExchangeValue [{this.ExchangeValue}] ");
     }
 }
