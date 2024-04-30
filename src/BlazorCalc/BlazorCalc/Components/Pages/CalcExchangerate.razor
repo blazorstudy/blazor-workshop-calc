@@ -22,29 +22,48 @@
         font-size: 24px;
     }
 
-    .currency-unit{
+    .unit{
         width: 50px;
         height: 80px;
-        font-size: 60px;
+        font-size: 64px;
     }
-
-    .explain_currencyvalue{
-        width: 300px;
-        height: 80px;
-        font-size: 100px;
+    #center {
+        text-align:center;
+    }
+    .currency{
+        width: 200px;
+        height: 30px;
+        font-size: 20px;
     }
 </style>
 
 <PageTitle>Calc_Exchangerate</PageTitle>
 
-<h1> &#x20A9 to $ Exchanger</h1>
+<h1> 환율 계산기 (달러, 엔화, 유로) </h1>
+<h5> [오늘의 환율] </h5>
+<label class="currency">@this.USDcurrencyvalue</label>
+<h6></h6>
+<label class="currency">@this.JPYcurrencyvalue</label>
+<h6></h6>
+<label class="currency">@this.EURcurrencyvalue</label>
 
-<div style="display:flex">
+<div style="display:flex"> 
     <label class="display-calc">@this.DisplayValue.ToString("#,#0.####")</label>
-    <label class="currency-unit">@this.CurrencyUnit</label>
+    <label class="unit" id="center">@this.ChangeUnit</label>
 </div>
 
-<label class="currency">@this.explain_currencyvalue</label>
+<form>
+    <select name="UserChoice" @onchange="selectBox">
+        <option value="USD">USD-달러($)</option>
+        <option value="JP">JP-엔화(¥)</option>
+        <option value="EUR">EUR-유로(€)</option>
+    </select>
+</form>
+
+<div style="display:flex">
+    <label class="display-calc">@this.ToCalValue.ToString("#,#0.####")</label>
+    <label class="unit" id="center" >@this.WONUnit</label>
+</div>
 
 <div style="display:flex">
     <button class="button-number" @onclick="() => clickButton(7)">7</button>
@@ -67,7 +86,7 @@
 <div style="display:flex">
     <button class="button-number" @onclick="clickClear">C</button>
     <button class="button-number" @onclick="() => clickButton(0)">0</button>
-    <button class="button-number" @onclick="clickResult">=</button>
+    <button class="button-number">" "</button>
 </div>
 
 @code {
@@ -86,10 +105,25 @@
         public string cur_nm { get; set; }
     }
 
-    private float DisplayValue { get; set; } = 0;
-    private float Currency {get; set;} = 0;
-    private string CurrencyUnit { get; set; } = "\u20A9";
-    private string explain_currencyvalue { get; set; } = " ";
+    private string UserChoiceCurrency { get; set; } = " ";
+    private float DisplayValue { get; set; } = 0; //계산하고 나다내는 값
+    private float ToCalValue { get; set; } = 0;
+
+    private float USDCurrencyCal {get; set;} = 0; //환율 계산시에 사용할 값
+    private float JPYCurrencyCal { get; set; } = 0; 
+    private float EURCurrencyCal { get; set; } = 0;
+
+    private string WONUnit { get; set; } = "\u20A9"; //입력칸 한화 단위
+    private string ChangeUnit { get; set; } = "$"; //계산할 환율 단위. (초기값은 $)
+
+    private string USDcurrencyvalue { get; set; } = " "; //API로부터 받아서 저장하고 오늘의 환율을 나타냄
+    private string JPYcurrencyvalue { get; set; } = " "; 
+    private string EURcurrencyvalue { get; set; } = " "; 
+
+    protected override async Task OnInitializedAsync()
+    {
+        UserChoiceCurrency = "USD"; //처음에는 콤보박스 클릭 이벤트가 없어서, 처음에는 USD라고 임의로 설정해줘야 제대로 작동함.
+    }
 
     private async Task getExchangeJson()
     {
@@ -97,39 +131,99 @@
         string authKey = Configuration["ApiAuthKey"] ?? string.Empty;
         string requestUrl = $"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={authKey}&searchdate={currentDate}&data=AP01";
 
-     
+
         var exchangeRates = await HttpClient.GetFromJsonAsync<ExchangeRate[]>(requestUrl);
+
         var usd = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "USD");
+        var eur = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "EUR");
+        var jpy = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "JPY(100)");
         if (usd != null)
         {
-            Currency = float.Parse(usd.deal_bas_r);
-            explain_currencyvalue = $"1\u20A9 = {usd.deal_bas_r}$";
+            USDCurrencyCal = float.Parse(usd.deal_bas_r);
+            USDcurrencyvalue = $"1$ = {usd.deal_bas_r}\u20A9";
         }
         else
         {
             Console.WriteLine("USD 정보를 가져올 수 없습니다.");
         }
+        if (eur != null)
+        {
+            EURCurrencyCal = float.Parse(eur.deal_bas_r);
+            EURcurrencyvalue = $"1€ = {eur.deal_bas_r}\u20A9";
+        }
+        else
+        {
+            Console.WriteLine("EUR 정보를 가져올 수 없습니다.");
+        }
+        if (jpy != null)
+        {
+            JPYCurrencyCal = float.Parse(jpy.deal_bas_r);
+            JPYcurrencyvalue = $"100¥ = {jpy.deal_bas_r}\u20A9";
+        }
+        else
+        {
+            Console.WriteLine("JPY 정보를 가져올 수 없습니다.");
+        }
+    }
+
+    private async Task selectBox(ChangeEventArgs e)
+    {
+        UserChoiceCurrency = e.Value.ToString();
+        switch (UserChoiceCurrency)
+        {
+            case "USD":
+                ChangeUnit = "$";
+                DisplayValue = 0;
+                ToCalValue = 0;
+                break;
+            case "JP":
+                ChangeUnit = "¥";
+                DisplayValue = 0;
+                ToCalValue = 0;
+                break;
+            case "EUR":
+                ChangeUnit = "€";
+                DisplayValue = 0;
+                ToCalValue = 0;
+                break;
+            default:
+                ChangeUnit = " ";
+                DisplayValue = 0;
+                ToCalValue = 0;
+                break;
+        }
+        await Task.CompletedTask;
     }
 
     private void writeStatus()
     {
-        Console.WriteLine($"DisplayValue[{this.DisplayValue}], currency[{this. Currency}]");
+        Console.WriteLine($"DisplayValue[{this.DisplayValue}], USDcurrency[{this.USDcurrencyvalue}], EURcurrency[{this.EURcurrencyvalue}], JPYcurrency[{this.JPYcurrencyvalue}]");
     }
 
-    private void clickButton(int value)
+    private async void clickButton(int value)
     {
-        DisplayValue = DisplayValue * 10 + value;
-        writeStatus();
-    }
-
-    private async void clickResult()
-    {
+        ToCalValue = ToCalValue * 10 + value;
         await getExchangeJson();
+        switch (UserChoiceCurrency)
+        {
 
-        CurrencyUnit = "$";
-        float temp = DisplayValue;
-        DisplayValue = temp / Currency;
-    
+            case "USD":
+                ChangeUnit = "$";
+                DisplayValue = ToCalValue / USDCurrencyCal;
+                break;
+            case "JP":
+                ChangeUnit = "¥";
+                DisplayValue= ToCalValue/ JPYCurrencyCal*100;
+                break;
+            case "EUR":
+                ChangeUnit = "€";
+                DisplayValue= ToCalValue/ EURCurrencyCal;
+                break;
+            default:
+                ChangeUnit = " ";
+                Console.WriteLine("Not supported");
+                break;
+        }
         StateHasChanged();
 
         writeStatus();
@@ -138,7 +232,7 @@
     private void clickClear()
     {
         DisplayValue = 0;
-        CurrencyUnit = "\u20A9";
+        ToCalValue = 0;
         writeStatus();
     }
 }
