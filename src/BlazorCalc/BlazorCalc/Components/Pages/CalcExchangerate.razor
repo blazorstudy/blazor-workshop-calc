@@ -53,7 +53,7 @@
 </div>
 
 <form>
-    <select name="UserChoice" @onchange="selectBox">
+    <select name="UserChoice" @onchange="selectBox" value="@UserChoiceCurrency">
         <option value="USD">USD-달러($)</option>
         <option value="JP">JP-엔화(¥)</option>
         <option value="EUR">EUR-유로(€)</option>
@@ -86,7 +86,7 @@
 <div style="display:flex">
     <button class="button-number" @onclick="clickClear">C</button>
     <button class="button-number" @onclick="() => clickButton(0)">0</button>
-    <button class="button-number">" "</button>
+    <button class="button-number"></button>
 </div>
 
 @code {
@@ -105,7 +105,7 @@
         public string cur_nm { get; set; }
     }
 
-    private string UserChoiceCurrency { get; set; } = " ";
+    private string UserChoiceCurrency { get; set; } = "USD";
     private float DisplayValue { get; set; } = 0; //계산하고 나다내는 값
     private float ToCalValue { get; set; } = 0;
 
@@ -116,13 +116,14 @@
     private string WONUnit { get; set; } = "\u20A9"; //입력칸 한화 단위
     private string ChangeUnit { get; set; } = "$"; //계산할 환율 단위. (초기값은 $)
 
-    private string USDcurrencyvalue { get; set; } = " "; //API로부터 받아서 저장하고 오늘의 환율을 나타냄
-    private string JPYcurrencyvalue { get; set; } = " "; 
-    private string EURcurrencyvalue { get; set; } = " "; 
+    private string USDcurrencyvalue { get; set; } = ""; //API로부터 받아서 저장하고 오늘의 환율을 나타냄
+    private string JPYcurrencyvalue { get; set; } = ""; 
+    private string EURcurrencyvalue { get; set; } = ""; 
 
     protected override async Task OnInitializedAsync()
     {
-        UserChoiceCurrency = "USD"; //처음에는 콤보박스 클릭 이벤트가 없어서, 처음에는 USD라고 임의로 설정해줘야 제대로 작동함.
+        // UserChoiceCurrency = "USD"; //처음에는 콤보박스 클릭 이벤트가 없어서, 처음에는 USD라고 임의로 설정해줘야 제대로 작동함.
+        await getExchangeJson();
     }
 
     private async Task getExchangeJson()
@@ -140,7 +141,7 @@
         if (usd != null)
         {
             USDCurrencyCal = float.Parse(usd.deal_bas_r);
-            USDcurrencyvalue = $"1$ = {usd.deal_bas_r}\u20A9";
+            USDcurrencyvalue = $"1$ = {usd.deal_bas_r}₩";
         }
         else
         {
