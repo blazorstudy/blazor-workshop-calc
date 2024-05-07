@@ -41,7 +41,8 @@
 - appsettings.Development.json 파일
 
   - ASP.NET Core 웹 애플리케이션의 개발 환경 설정 파일입니다.
-  - razor 파일에 직접 인증키를 넣을 수 있지만 이는 보안상의 위험이 있어, 설정 파일에 정보를 저장합니다.
+  - razor 파일에 직접 인증키를 넣을 수 있지만, razor 파일에 넣고 GitHub과 같은 곳에 오픈소스로 코드를 올린다면, 나의 인증키를 모두가 알 수 있습니다. 따라서, 설정 파일에 넣고 타인과 공유하지 않습니다.
+  - 또, 인증키가 바뀔 때 마다 웹페이지를 다시 컴파일하여 재배포하지 않기 위함입니다.
   - 개발 환경 설정 파일에 API 인증키를 넣어줍니다.
 
     ```json
@@ -57,8 +58,6 @@
     ```
 
 ---
-
-<br/>
 
 2. API를 불러오고 데이터를 처리하기 위한 클래스를 추가합니다.
 
@@ -92,8 +91,6 @@
 
 ---
 
-<br/>
-
 3. ExchangeRate class 만들기
 
    API를 요청했을 때, 받은 정보를 저장할 class를 만들어줍니다
@@ -117,8 +114,6 @@
 
 ---
 
-<br/>
-
 4. 사용할 변수 추가
 
    ```cs
@@ -139,8 +134,6 @@
    ```
 
 ---
-
-<br/>
 
 5. getExchangeJson 함수 추가하기
 
@@ -224,8 +217,6 @@
 
 ---
 
-<br/>
-
 6. OnInitialized 함수 추가하기
 
    환율 페이지를 클릭했을 때 바로 오늘의 환율을 표시해야합니다. 따라서, 페이지가 시작할 때 자동으로 호출되는 OnInitializedAsync() 함수를 오버라이딩해서 위에서 추가했던 getExchageJson() 함수를 페이지가 시작될 때 호출합니다.
@@ -239,11 +230,10 @@
 
 ---
 
-<br/>
-
 7. clickButton 함수 추가
 
-   버튼을 클릭 했을 때, 값을 바꿔주고, API를 호출하며, 사용자가 선택한 콤보박스 값에 맞추어 값을 바꿔줍니다.
+   - 버튼을 클릭 했을 때, 값을 바꿔주고, API를 호출하며, 사용자가 선택한 콤보박스 값에 맞추어 값을 바꿔줍니다.
+   - StateHasChanged() : 현재 UI를 새로고침 해주는 함수 입니다. 버튼을 클릭한 후, 바뀐 값을 표시하기 위해 호출합니다.
 
    ```cs
    private async void clickButton(int value){
@@ -271,8 +261,6 @@
 
 ---
 
-<br/>
-
 8. wirteStatus 함수 추가
 
    받아온 값과 환율을 계산해서 보여지는 값을 콘솔창에서 확인하기 위해 writeStatus() 함수를 추가해서 확인합니다.
@@ -285,8 +273,6 @@
    ```
 
 ---
-
-<br/>
 
 9. selectBox 함수 추가
 
@@ -325,8 +311,6 @@
 
 ---
 
-<br/>
-
 10. clickClear 함수 추가
 
     "c"를 눌렀을 때 모든 값을 초기화할 수 있는 함수를 추가해줍니다
@@ -353,3 +337,17 @@
 4. [비동기 vs 동기 프로그래밍 예시](https://learn.microsoft.com/ko-kr/dotnet/csharp/asynchronous-programming/)
 5. [API](https://helloworld-88.tistory.com/21)
 6. [API 추가 설명](https://velog.io/@gil0127/API%EB%9E%80-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC%EC%99%80-%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4%EC%97%90-%EC%9C%A0%EC%9A%A9%ED%95%9C-%EB%8C%80%EB%B0%95-%EC%82%AC%EC%9D%B4%ED%8A%B8-%EA%B3%B5%EC%9C%A0)
+
+### 더 많은 정보를 알고 싶다면?
+
+---
+
+[C# 기초 과정- 학습부터 자격증까지 (자격증 응시료 무료)](https://aka.ms/csharp-certification)
+
+[MLSA에 관심이 있다면? 지금 신청하세요! - 신청링크](https://mvp.microsoft.com/studentambassadors)
+
+[KNU-MLSA 질문방 (까다로운 MLSA 지원 절차 안내해드려요. 언제든 질문해주세요!)](https://open.kakao.com/o/gyy871Hf)
+
+[Blazor X MAUI X WPF 디스코드 링크](https://discord.com/invite/g7nKCrDVqK)
+
+[해커그라운드 디스코드 링크](https://aka.ms/hg/discord)
