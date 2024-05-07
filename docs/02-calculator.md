@@ -2,9 +2,7 @@
 
 이 세션에서는 Blazor로 계산기 만들기를 진행합니다.
 
-## 1. Blazor 개발환경 구축하고, 시작하기
-
-## 셋업
+## 1. Blazor 개발환경 구축하기
 
 블레이저를 시작하려면 [blazor.net](https://blazor.net)의 안내를 따라하세요.
 
@@ -13,16 +11,6 @@
 * [C# Dev Kit 익스텐션 설치하기](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 * [.NET SDK 8.0 설치하기](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 * [DB Browser for SQLite](https://sqlitebrowser.org)
-
-## 첫 번째 앱 만들기
-
-일단 첫 번째 블레이저 앱을 실행하였으면 [블레이저 할 일 목록 앱 만들기](https://aka.ms/blazor/todo)에 도전하세요.
-
-다음 세션 - [컴포넌트와 레이아웃](01-components-and-layout.md)
-//
-이 부트캠프에서는 Microsoft 365 개발자 프로그램 및 파워 플랫폼 개발자 프로그램에 이미 사용자의 계정을 생성해 두었습니다. 하지만 직접 가입하고 싶다면 아래 링크를 통해 Microsoft 365 개발자 프로그램에 가입합니다.
-
-👉 [Microsoft 365 개발자 프로그램 가입 방법](../microsoft365-developer-program)
 
 ## 2. GitHub Codespaces 시작
 
