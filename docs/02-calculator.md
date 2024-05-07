@@ -12,7 +12,7 @@
 * [.NET SDK 8.0 설치하기](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 * [DB Browser for SQLite](https://sqlitebrowser.org)
 
-## 2. GitHub Codespaces 시작
+## 2. 시작하기
 
 1. 이 리포지토리를 자신의 GitHub 계정으로 포크합니다.
 1. 포크한 리포지토리에서 GitHub Codespaces 인스턴스를 생성합니다.
