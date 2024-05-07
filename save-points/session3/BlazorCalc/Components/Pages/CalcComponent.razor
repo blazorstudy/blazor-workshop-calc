@@ -1,0 +1,44 @@
+﻿@page "/calc-component"
+@using BlazorCalc.Components.Calc 
+@rendermode InteractiveServer
+@inject CalcState calcState;
+
+<h3>CalcComponent</h3>
+
+<CalcLabel />
+
+<div style="display:flex">
+    <CalcButton DataValue="7" />
+    <CalcButton DataValue="8" />
+    <CalcButton DataValue="9" />
+    <CalcButton DataValue="C" />
+</div>
+
+<div style="display:flex">
+    <CalcButton DataValue="4" />
+    <CalcButton DataValue="5" />
+    <CalcButton DataValue="6" />
+    <CalcButton DataValue="+" />
+</div>
+
+<div style="display:flex">
+    <CalcButton DataValue="1" />
+    <CalcButton DataValue="2" />
+    <CalcButton DataValue="3" />
+    <CalcButton DataValue="-" />
+</div>
+
+<div style="display:flex">
+    <CalcButton DataValue="" />
+    <CalcButton DataValue="0" />
+    <CalcButton DataValue="" />
+    <CalcButton DataValue="=" />
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        calcState.Clear();
+    }
+}
