@@ -23,14 +23,23 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 
 ---
 
+### 2. 페이지 라우팅 경로, 렌더링 모드 설정 작업
+
 save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치로 이동합니다.
+
 ```
 @page "/calc-page"
 @rendermode InteractiveServer
 ```
+`CalcPage.razor` 파일 상단에 위 내용을 추가해줍니다.
+
+
 @page "/calc-page"
+
 Razor 페이지의 경로를 지정합니다.
+
 @rendermode InteractiveServer
+
 사용자와 상호작용하는 동안 서버에 요청을 보내어 렌더링 합니다.
 
 ---
