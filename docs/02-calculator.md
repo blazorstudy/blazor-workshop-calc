@@ -270,6 +270,11 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 <br/><br/>
 ### 1. 시작하기
 
+**save-points/session2/BlazorCalc/Components** 로 이동하여, `Calc`폴더를 만들어줍니다.
+```
+$ mkdir Calc
+```
+
 `Calc` 폴더에 5 가지 파일을 추가해줍니다.
 - `CalcButton.razor` : 계산기에서 숫자나 연산자를 표시하는 버튼 컴포넌트
 - `CalcButton.razor.css` : 버튼 컴포넌트의 스타일을 정의하는 CSS 파일
