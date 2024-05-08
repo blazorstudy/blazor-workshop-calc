@@ -44,6 +44,27 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 
 ### 3. 스타일 적용하기
 
+계산 결과가 표시되는 부분과, 계산기 버튼의 스타일을 적용해줍니다.
+
+```
+<style>
+    .display-calc {
+        width: 320px;
+        text-align: right;
+        font-size: 32px;
+    }
+
+    .button-number {
+        height: 80px;
+        width: 80px;
+        background-color: lightskyblue;
+        font-size: 24px;
+    }
+</style>
+
+```
+- .display-calc {...} : 계산 결과가 표시되는 부분에 대한 스타일
+- .button-number {...} : 계산기 버튼에 대한 스타일
 
 
 ## 3. 다른 방법으로 계산기 만들기 실습하기
