@@ -257,7 +257,9 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 현재 DisplayValue, StoredValue, 그리고 선택된 연산자를 출력합니다. 
 
 <br/>
+
 ### 🎉계산기가 완성되었습니다!!🎉
+
 <br/>
 
 ## 3. 다른 방법으로 계산기 만들기 실습하기
@@ -274,7 +276,43 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 - `CalcLable.razor` : 계산기에서 결과를 표시하는 라벨 컴포넌트
 - `CalcLable.razor.css` :  라벨 컴포넌트의 스타일을 정의하는 CSS 파일
 - `CalcState.cs` : 사용자의 입력을 처리하고 계산을 수행하는 로직이 담긴 계산기의 상태를 관리하는 클래스
-
 <br/><br/>
-### 2. 
+### 2. CalcButton.razor 파일 내용 구성하기
 
+계산기에 숫자나 연산자를 나타내는 버튼을 표현하기 위한 컴포넌트를 만들어보겠습니다.
+
+```
+@inject CalcState calcState;
+
+<button class="calc" @onclick="ClickButton">@DataValue</button>
+
+@code {
+
+    [Parameter]
+    public string DataValue { get; set; } = "0";
+
+    private void ClickButton()
+    {
+        calcState.clickButton(DataValue);
+    }
+}
+```
+
+- `@inject` : CalcState 서비스를 calcState라는 이름의 필드로 주입하는 기능을 합니다.
+  
+  -  calcState 필드를 통해 CalcState 클래스의 메서드나 속성을 호출합니다.
+
+- `<button class="calc" @onclick="ClickButton">@DataValue</button>` : 클릭 이벤트가 발생하면 `ClickButton` 메서드가 호출됩니다.
+  - 버튼의 텍스트는 `DataValue`로부터 가져옵니다.
+<br/><br/>
+### 3. 버튼 스타일 적용하기
+### 4. CalcLable.razor 파일 내용 구성하기
+### 5. 계산 결과 표시하는 라벨 스타일 적용하기
+### 6. CalcState.cs 파일 내용 구성하기
+### 7. CalcComponent.razor 에서 컴포넌트 조합하여 계산기 완성하기
+
+<br/>
+
+### 🎉계산기가 완성되었습니다!!🎉
+
+<br/>
