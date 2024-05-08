@@ -10,9 +10,9 @@
 * [Visual Studio Code 설치하기](https://code.visualstudio.com/download)
 * [C# Dev Kit 익스텐션 설치하기](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 * [.NET SDK 8.0 설치하기](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-* [DB Browser for SQLite](https://sqlitebrowser.org)
+---
 
-## 2. Blazor로 계산기 만들기 시작하기
+## 2. CalcPage.razor 파일에서 실습하기
 
 
 
