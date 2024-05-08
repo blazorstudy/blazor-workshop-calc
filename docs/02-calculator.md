@@ -273,7 +273,7 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 `Calc` 폴더에 5 가지 파일을 추가해줍니다.
 - `CalcButton.razor` : 계산기에서 숫자나 연산자를 표시하는 버튼 컴포넌트
 - `CalcButton.razor.css` : 버튼 컴포넌트의 스타일을 정의하는 CSS 파일
-- `CalcLable.razor` : 계산기에서 결과를 표시하는 라벨 컴포넌트
+- `CalcLable.razor` : 계산기의 상태와 계산 결과를 표시하는 라벨 컴포넌트
 - `CalcLable.razor.css` :  라벨 컴포넌트의 스타일을 정의하는 CSS 파일
 - `CalcState.cs` : 사용자의 입력을 처리하고 계산을 수행하는 로직이 담긴 계산기의 상태를 관리하는 클래스
 <br/><br/>
@@ -311,9 +311,48 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 
 **save-points/session2/BlazorCalc/Components/Calc/CalcButton.razor.css** 위치로 이동합니다.
 
-`CalcButton.razor` 파일의 스타일을 지정하는 파일입니다.
+```
+.calc {
+    height: 80px;
+    width: 80px;
+    background-color: lightskyblue;
+    font-size: 24px;
+}
+```
 
+`CalcButton.razor` 파일의 스타일을 지정합니다.
+<br/><br/>
 ### 4. CalcLable.razor 파일 내용 구성하기
+
+계산기의 상태나 계산 결과를 표시하기 위한 컴포넌트를 만들어보겠습니다.
+
+**save-points/session2/BlazorCalc/Components/Calc/CalcLable.razor** 위치로 이동합니다.
+
+```
+@inject CalcState calcState;
+
+<label class="calc">@calcState.DisplayValue</label>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        calcState.Notify += () => InvokeAsync(StateHasChanged); 
+    }
+}
+```
+
+- `<label class="calc">@calcState.DisplayValue</label>` : @calcState.DisplayValue를 통해 CalcState 서비스의 DisplayValue 속성을 가져와서 버튼 입력값이나 계산 결과를 라벨의 내용으로 사용합니다.
+
+- `@code {...}`: OnInitialized 메서드를 재정의하여 컴포넌트가 초기화될 때 calcState의 Notify 이벤트에 이벤트 핸들러를 추가하고 있습니다.
+
+- `calcState.Notify += ...` : Notify 이벤트에 새로운 이벤트 핸들러를 추가합니다. 이렇게 하면 Notify 이벤트가 발생할 때마다 추가된 이벤트 핸들러가 호출됩니다.
+
+  - `() => InvokeAsync(StateHasChanged)` : 이 람다식은 InvokeAsync(StateHasChanged)를 호출합니다. 상태가 변경될 때마다 StateHasChanged 메서드를 호출하여 UI를 업데이트하도록 요청합니다.
+    
+    - StateHasChanged 메서드는 Blazor에게 UI를 업데이트하도록 요청하는 역할을 합니다.
+<br/><br/>
 ### 5. 계산 결과 표시하는 라벨 스타일 적용하기
 ### 6. CalcState.cs 파일 내용 구성하기
 ### 7. CalcComponent.razor 에서 컴포넌트 조합하여 계산기 완성하기
