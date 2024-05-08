@@ -20,7 +20,6 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 ```
 
 "save-points" 폴더에 각 세션별로 준비가 되어 있습니다. [session2](https://github.com/blazorstudy/blazor-workshop-calc/tree/main/save-points/session2)를 찾아보세요
-
 <br/><br/>
 ### 2. 페이지 라우팅 경로, 렌더링 모드 설정하기
 
@@ -40,8 +39,7 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 - @rendermode InteractiveServer
 
   - 사용자와 상호작용하는 동안 서버에 요청을 보내어 렌더링 합니다.
-
-
+<br/><br/>
 ### 3. 스타일 적용하기
 
 계산 결과가 표시되는 부분과, 계산기 버튼의 스타일을 적용해줍니다.
@@ -65,8 +63,7 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 ```
 - .display-calc {...} : 계산 결과가 표시되는 부분에 대한 CSS 클래스
 - .button-number {...} : 계산기 버튼에 대한 CSS 클래스
-
-
+<br/><br/>
 ### 4. 계산기 UI
 
 계산기의 UI 부분 코드를 추가해봅시다.
@@ -123,7 +120,7 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 - 연산자 버튼 및 초기화 버튼: 덧셈(+), 뺄셈(-), 등호(=), 초기화(C) 버튼은 클릭 이벤트에 따라 해당 기능을 수행하는 C# 메서드가 정의되어 있습니다.
 
 - `display:flex`를 사용하여 버튼들을 수평으로 나란히 배치합니다.
-
+<br/><br/>
 
 
 
