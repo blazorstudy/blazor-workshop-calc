@@ -352,6 +352,7 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
   - `() => InvokeAsync(StateHasChanged)` : 이 람다식은 InvokeAsync(StateHasChanged)를 호출합니다. 상태가 변경될 때마다 StateHasChanged 메서드를 호출하여 UI를 업데이트하도록 요청합니다.
     
   > StateHasChanged 메서드는 Blazor에게 UI를 업데이트하도록 요청하는 역할을 합니다.
+
 <br/><br/>
 ### 5. 계산 결과 표시하는 라벨 스타일 적용하기
 ### 6. CalcState.cs 파일 내용 구성하기
