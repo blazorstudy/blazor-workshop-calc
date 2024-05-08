@@ -20,6 +20,7 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 ```
 
 "save-points" 폴더에 각 세션별로 준비가 되어 있습니다. [session2](https://github.com/blazorstudy/blazor-workshop-calc/tree/main/save-points/session2)를 찾아보세요
+
 <br/><br/>
 ### 2. 페이지 라우팅 경로, 렌더링 모드 설정하기
 
@@ -39,6 +40,7 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 - @rendermode InteractiveServer
 
   - 사용자와 상호작용하는 동안 서버에 요청을 보내어 렌더링 합니다.
+    
 <br/><br/>
 ### 3. 스타일 적용하기
 
@@ -63,6 +65,7 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 ```
 - .display-calc {...} : 계산 결과가 표시되는 부분에 대한 CSS 클래스
 - .button-number {...} : 계산기 버튼에 대한 CSS 클래스
+  
 <br/><br/>
 ### 4. 계산기 UI
 
@@ -101,25 +104,24 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
     <button class="button-number" @onclick="clickResult">=</button>
 </div>
 ```
-- `<label class="display-calc">@this.DisplayValue</label>`: 계산기의 출력 화면을 나타내는 레이블
+- `<label class="display-calc">@this.DisplayValue</label>` : 계산기의 출력 화면을 나타내는 레이블
   
   - 위에 추가했던 `display-calc`라는 CSS 클래스가 여기 적용됩니다.
- 
+<br/>
 - `<button class="button-number" @onclick="() => clickButton(N)">N</button>` : 0부터 9까지의 숫자를 나타내며, 사용자가 숫자를 입력할 때 클릭하는 버튼
 
   - 마찬가지로 각 버튼에는 위에 추가했던 `button-number`라는 CSS 클래스가 적용됩니다.
     
-  - `@onclick`: Blazor에서 사용되는 이벤트 처리기 지시문
+  - `@onclick` : Blazor에서 사용되는 이벤트 처리기 지시문
     
     -  <button>이 클릭되었을 때 실행될 이벤트 핸들러를 지정합니다.
     
-  - `() => clickButton(N)`: 이 람다식은 버튼이 클릭되었을 때 clickButton(N) 메서드를 호출하도록 지정합니다.
+  - `() => clickButton(N)` : 이 람다식은 버튼이 클릭되었을 때 clickButton(N) 메서드를 호출하도록 지정합니다.
   
 > 위와 같이 함수를 정의하고 해당 함수를 참조하는 대신, 직접 람다식으로 함수를 정의하여 사용할 수 있습니다. 코드가 더 간결해지고, 이벤트 핸들러의 목적이 명확해집니다.
+<br/>
+- 연산자 버튼 및 초기화 버튼 : 덧셈(+), 뺄셈(-), 등호(=), 초기화(C) 버튼은 클릭 이벤트에 따라 해당 기능을 수행하는 C# 메서드가 정의되어 있습니다.
 
-- 연산자 버튼 및 초기화 버튼: 덧셈(+), 뺄셈(-), 등호(=), 초기화(C) 버튼은 클릭 이벤트에 따라 해당 기능을 수행하는 C# 메서드가 정의되어 있습니다.
-
-- `display:flex`를 사용하여 버튼들을 수평으로 나란히 배치합니다.
 <br/><br/>
 
 
