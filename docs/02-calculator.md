@@ -13,6 +13,7 @@
 <br/><br/>
 ## 2. CalcPage.razor 파일에서 실습하기
 <br/>
+
 ### 1. 시작하기
 
 원하는 경로에 레포지토리를 복사하고
@@ -105,7 +106,8 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 - `<label class="display-calc">@this.DisplayValue</label>` : 계산기의 출력 화면을 나타내는 레이블
   
   - 위에 추가했던 `display-calc`라는 CSS 클래스가 여기 적용됩니다.
-<br/>
+
+
 - `<button class="button-number" @onclick="() => clickButton(N)">N</button>` : 0부터 9까지의 숫자를 나타내며, 사용자가 숫자를 입력할 때 클릭하는 버튼
 
   - 마찬가지로 각 버튼에는 위에 추가했던 `button-number`라는 CSS 클래스가 적용됩니다.
