@@ -12,8 +12,6 @@
 * [.NET SDK 8.0 설치하기](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 <br/><br/>
 ## 2. CalcPage.razor 파일에서 실습하기
-<br/>
-
 ### 1. 시작하기
 
 원하는 경로에 레포지토리를 복사하고
