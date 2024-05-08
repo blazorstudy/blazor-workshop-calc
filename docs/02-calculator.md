@@ -21,7 +21,6 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 
 "save-points" 폴더에 각 세션별로 준비가 되어 있습니다. [session2](https://github.com/blazorstudy/blazor-workshop-calc/tree/main/save-points/session2)를 찾아보세요
 
----
 
 ### 2. 페이지 라우팅 경로, 렌더링 모드 설정하기
 
@@ -42,7 +41,6 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 
   - 사용자와 상호작용하는 동안 서버에 요청을 보내어 렌더링 합니다.
 
----
 
 ### 3. 스타일 적용하기
 
