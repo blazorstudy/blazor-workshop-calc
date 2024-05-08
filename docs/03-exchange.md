@@ -342,7 +342,7 @@
 
 ---
 
-[C# 기초 과정- 학습부터 자격증까지 (자격증 응시료 무료)](https://aka.ms/csharp-certification)
+[C# 기초 과정- 학습부터 자격증까지 (자격증 응시료 무료)](https://learn.microsoft.com/ko-kr/collections/yz26f8y64n7k07?WT.mc_id=studentamb_283776)
 
 [MLSA에 관심이 있다면? 지금 신청하세요! - 신청링크](https://mvp.microsoft.com/studentambassadors)
 
