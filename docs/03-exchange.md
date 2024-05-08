@@ -5,9 +5,9 @@
 ## 0. API란?
 
 1. API : Application Progamming Interface의 줄임말입니다.
-   - 어떠한 응용 프로그램에서 데이터를 주고 받기 위한 방법으로,
    - Interface : 어떤 장치끼리의 정보를 교환하기 위한 수단과 방법을 의미합니다.
-   - ex) 회사 내의 서버 데이터와 "인터넷을 사용해 회사 웹사이트를 보는 사용자" 간의 상호작용이 가능하게 중간 다리 역할을 해줍니다.
+   - 어떠한 응용 프로그램에서 데이터를 주고 받기 위한 방법으로,
+   - ex) 회사 내의 서버 데이터에 개발자가 API를 사용하여 접근하고, 개발자는 "회사 웹사이트를 보는 사용자"가 API를 호출해서 데이터를 사용할 수 있게 개발합니다.
 
 ## 1. OpenAPI 가져오기
 
@@ -15,7 +15,7 @@
 
 - OpenAPI란?
 
-  - 누구나 사용할 수 있도록 공개된 API (회사에서 공개 가능한 API를 누구 사용할 수 있게 함)
+  - 누구나 사용할 수 있도록 공개된 API (회사에서 공개 가능한 API를 누구나 사용할 수 있게 함)
   - public API 라고 할 수 있습니다.
 
 - 한국수출입은행 OpenAPI 요청 흐름
@@ -34,7 +34,7 @@
 
 ## 2. CalcExchangerate.razor 파일에서 실습하기
 
-1. appsettings.development.json에서 OpenAPI 인증키 변수 추가
+1. appsettings.Development.json에 OpenAPI 인증키 변수 추가
 
 - BlazorCalc/appsettings.Development.json 위치로 이동합니다.
 
@@ -53,7 +53,7 @@
           "Microsoft.AspNetCore": "Warning"
         }
       },
-      "ApiAuthKey": "0MKRDFz4g6nOf8Id5lBUgxCfceeVrud1"
+      "ApiAuthKey": "개인 발급키"
     }
     ```
 
@@ -342,7 +342,7 @@
 
 ---
 
-[C# 기초 과정- 학습부터 자격증까지 (자격증 응시료 무료)](https://aka.ms/csharp-certification)
+[C# 기초 과정- 학습부터 자격증까지 (자격증 응시료 무료)](https://learn.microsoft.com/ko-kr/collections/yz26f8y64n7k07?WT.mc_id=studentamb_283776)
 
 [MLSA에 관심이 있다면? 지금 신청하세요! - 신청링크](https://mvp.microsoft.com/studentambassadors)
 
