@@ -20,6 +20,7 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 ```
 
 "save-points" 폴더에 각 세션별로 준비가 되어 있습니다. [session2](https://github.com/blazorstudy/blazor-workshop-calc/tree/main/save-points/session2)를 찾아보세요
+---
 
 ### 2. 
 
