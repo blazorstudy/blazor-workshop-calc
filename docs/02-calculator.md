@@ -67,6 +67,45 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 - .button-number {...} : 계산기 버튼에 대한 스타일
 
 
+### 4. 계산기 UI
+
+계산기의 UI 부분 코드를 추가해봅시다.
+
+```
+<h3>CalcPage</h3>
+
+<label class="display-calc">@this.DisplayValue</label>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(7)">7</button>
+    <button class="button-number" @onclick="() => clickButton(8)">8</button>
+    <button class="button-number" @onclick="() => clickButton(9)">9</button>
+    <button class="button-number" @onclick="clickClear">C</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(4)">4</button>
+    <button class="button-number" @onclick="() => clickButton(5)">5</button>
+    <button class="button-number" @onclick="() => clickButton(6)">6</button>
+    <button class="button-number" @onclick="clickPlus">+</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(1)">1</button>
+    <button class="button-number" @onclick="() => clickButton(2)">2</button>
+    <button class="button-number" @onclick="() => clickButton(3)">3</button>
+    <button class="button-number" @onclick="clickMinus">-</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number"></button>
+    <button class="button-number" @onclick="() => clickButton(0)">0</button>
+    <button class="button-number"></button>
+    <button class="button-number" @onclick="clickResult">=</button>
+</div>
+```
+
+
 ## 3. 다른 방법으로 계산기 만들기 실습하기
 
 
