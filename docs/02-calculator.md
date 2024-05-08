@@ -23,7 +23,7 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 <br/><br/>
 ### 2. 페이지 라우팅 경로, 렌더링 모드 설정하기
 
-save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치로 이동합니다.
+save-points/session2/BlazorCalc/Components/Pages/CalcPage.razor 위치로 이동합니다.
 
 ```
 @page "/calc-page"
@@ -123,7 +123,41 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 
 ### 5. 각 메서드 정의하기
 
-ㄱㄴㄷㄷ
+이제 `@code{...}` 안의 내용을 채워보겠습니다.
+
+```
+    private enum CalcOp
+    {
+        None,
+        Plus,
+        Minus,
+    }
+    private int DisplayValue { get; set; } = 0;
+    private int StoredValue { get; set; } = 0;
+    private CalcOp op = CalcOp.None;
+```
+
+- `enum CalcOp` : 계산기의 연산자를 나타냅니다. Plus(덧셈), Minus(뺄셈), None(연산자 없음) 세 가지 값을 가질 수 있습니다.
+
+- `DisplayValue` : 현재 사용자에게 표시되는 숫자를 나타냅니다.
+
+- `StoredValue` : 현재 계산기에 저장된 숫자를 나타냅니다.
+
+- `op` : 현재 선택된 연산자를 나타냅니다. Plus가 선택되면 덧셈이, Minus가 선택되면 뺄셈이 수행됩니다. 위 코드에서 초기값으로 None(연산자 없음)이 들어가있습니다.
+
+---
+1. clickButton(int value) 메서드 추가하기
+---
+2. clickPlus() 메서드 추가하기
+---
+3. clickMinus() 메서드 추가하기
+---
+4. clickResult() 메서드 추가하기
+---
+5. clickClear() 매서드 추가하기
+---
+6. writeStatus() 매서드 추가하기
+
 
 ## 3. 다른 방법으로 계산기 만들기 실습하기
 
