@@ -1,6 +1,10 @@
 using BlazorCalc.Components;
+using BlazorCalc.Components.Calc;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<CalcState>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
