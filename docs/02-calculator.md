@@ -11,6 +11,8 @@
 * [C# Dev Kit 익스텐션 설치하기](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 * [.NET SDK 8.0 설치하기](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
+<br/><br/>
+
 ## 2. CalcPage.razor 파일에서 실습하기
 ### 1. 시작하기
 
