@@ -587,6 +587,25 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 
 <br/>
 
+### 8. CalcState 서비스 등록하기
+
+**save-points/session2/BlazorCalc/Program.cs** 파일을 열어줍니다.
+
+앞에서 만든 CalcState.cs 서비스를 등록하는 부분입니다. 파일에 아래 내용을 추가해주세요.
+
+```
+using BlazorCalc.Components.Calc;
+```
+- CalcState.cs 클래스가 정의된 네임스페이스를 가져옵니다.
+  
+```
+builder.Services.AddSingleton<CalcState>();
+```
+-  CalcState.cs 서비스를 등록합니다.
+
+
+
+
 ### 🎉계산기가 완성되었습니다!!🎉
 
 <br/>
