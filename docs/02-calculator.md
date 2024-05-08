@@ -324,7 +324,7 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 <br/><br/>
 ### 4. CalcLable.razor 파일 내용 구성하기
 
-계산기의 상태나 계산 결과를 표시하기 위한 컴포넌트를 만들어보겠습니다.
+계산기의 상태나 계산 결과를 표시하기 위한 라벨의 컴포넌트를 만들어보겠습니다.
 
 **save-points/session2/BlazorCalc/Components/Calc/CalcLable.razor** 위치로 이동합니다.
 
@@ -353,7 +353,7 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
     
   > StateHasChanged 메서드는 Blazor에게 UI를 업데이트하도록 요청하는 역할을 합니다.
 
-<br/><br/>
+<br/>
 ### 5. 계산 결과 표시하는 라벨 스타일 적용하기
 ### 6. CalcState.cs 파일 내용 구성하기
 ### 7. CalcComponent.razor 에서 컴포넌트 조합하여 계산기 완성하기
