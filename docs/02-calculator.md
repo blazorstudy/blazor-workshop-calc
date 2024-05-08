@@ -23,7 +23,17 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 
 ---
 
-### 2. 
+save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치로 이동합니다.
+```
+@page "/calc-page"
+@rendermode InteractiveServer
+```
+@page "/calc-page"
+Razor 페이지의 경로를 지정합니다.
+@rendermode InteractiveServer
+사용자와 상호작용하는 동안 서버에 요청을 보내어 렌더링 합니다.
+
+---
 
 ### 3. 스타일 적용하기
 
