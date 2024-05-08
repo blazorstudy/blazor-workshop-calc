@@ -273,15 +273,15 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 `Calc` 폴더에 5 가지 파일을 추가해줍니다.
 - `CalcButton.razor` : 계산기에서 숫자나 연산자를 표시하는 버튼 컴포넌트
 - `CalcButton.razor.css` : 버튼 컴포넌트의 스타일을 정의하는 CSS 파일
-- `CalcLable.razor` : 계산기의 상태와 계산 결과를 표시하는 라벨 컴포넌트
-- `CalcLable.razor.css` :  라벨 컴포넌트의 스타일을 정의하는 CSS 파일
+- `CalcLabel.razor` : 계산기 입력값과 계산 결과를 표시하는 라벨 컴포넌트
+- `CalcLabel.razor.css` :  라벨 컴포넌트의 스타일을 정의하는 CSS 파일
 - `CalcState.cs` : 사용자의 입력을 처리하고 계산을 수행하는 로직이 담긴 계산기의 상태를 관리하는 클래스
 <br/><br/>
 ### 2. CalcButton.razor 파일 내용 구성하기
 
 계산기에 숫자나 연산자를 나타내는 버튼을 표현하기 위한 컴포넌트를 만들어보겠습니다.
 
-**save-points/session2/BlazorCalc/Components/Calc/CalcButton.razor** 위치로 이동합니다.
+**save-points/session2/BlazorCalc/Components/Calc/CalcButton.razor** 파일을 열어줍니다.
 
 ```
 @inject CalcState calcState;
@@ -309,7 +309,7 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 <br/><br/>
 ### 3. 버튼 스타일 적용하기
 
-**save-points/session2/BlazorCalc/Components/Calc/CalcButton.razor.css** 위치로 이동합니다.
+**save-points/session2/BlazorCalc/Components/Calc/CalcButton.razor.css** 파일을 열어줍니다.
 
 ```
 .calc {
@@ -322,11 +322,11 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 
 `CalcButton.razor` 파일의 스타일을 지정합니다.
 <br/><br/>
-### 4. CalcLable.razor 파일 내용 구성하기
+### 4. CalcLabel.razor 파일 내용 구성하기
 
-계산기의 상태나 계산 결과를 표시하기 위한 라벨의 컴포넌트를 만들어보겠습니다.
+계산기 입력값과 계산 결과를 표시하기 위한 라벨의 컴포넌트를 만들어보겠습니다.
 
-**save-points/session2/BlazorCalc/Components/Calc/CalcLable.razor** 위치로 이동합니다.
+**save-points/session2/BlazorCalc/Components/Calc/CalcLabel.razor** 파일을 열어줍니다.
 
 ```
 @inject CalcState calcState;
@@ -354,9 +354,236 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
   > StateHasChanged 메서드는 Blazor에게 UI를 업데이트하도록 요청하는 역할을 합니다.
 
 <br/>
+
 ### 5. 계산 결과 표시하는 라벨 스타일 적용하기
+
+**save-points/session2/BlazorCalc/Components/Calc/CalcLabel.razor.css** 파일을 열어줍니다.
+
+```
+.calc {
+    width: 320px;
+    text-align: right;
+    font-size: 32px;
+}
+```
+`CalcLabel.razor` 파일의 스타일을 지정합니다.
+
 ### 6. CalcState.cs 파일 내용 구성하기
+
+**save-points/session2/BlazorCalc/Components/Calc/CalcState.cs** 파일을 열어줍니다.
+
+1. CalcState 클래스 추가하기
+
+```
+using System.Xml;
+
+namespace BlazorCalc.Components.Calc;
+
+public class CalcState
+{
+}
+```
+- `namespace BlazorCalc.Components.Calc;` : CalcState 클래스가 BlazorCalc.Components.Calc 네임스페이스에 속한다.
+
+- `public class CalcState {..}` : 이 클래스 내부에 계산기의 상태를 관리하는 내용이 들어갑니다.
+
+---
+2. CalcState 클래스 내부 메서드 정의하기
+   
+이제 본격적으로 CalcState 클래스 내부에 메서드를 하나씩 채워보겠습니다.
+
+```
+    enum CalcOp
+    {
+        None,
+        Plus,
+        Minus,
+    }
+
+    private CalcOp op = CalcOp.None;
+
+    public event Action? Notify; 
+    public int DisplayValue { get; set; } = 0;
+    public int StoredValue { get; set; } = 0;
+```
+
+- `enum CalcOp` : 계산기의 연산자를 나타냅니다. Plus(덧셈), Minus(뺄셈), None(연산자 없음) 세 가지 값을 가질 수 있습니다.
+
+- `DisplayValue` : 현재 사용자에게 표시되는 숫자를 나타냅니다.
+
+- `StoredValue` : 현재 계산기에 저장된 숫자를 나타냅니다.
+
+- `op` : 현재 선택된 연산자를 나타냅니다. Plus가 선택되면 덧셈이, Minus가 선택되면 뺄셈이 수행됩니다. 위 코드에서 초기값으로 None(연산자 없음)이 들어가있습니다.
+
+---
+
+2-1. Clear() 메서드 추가하기
+
+초기화(C) 버튼이 클릭되었을 때 호출되는 메서드입니다. 
+
+```
+    public void Clear()
+    {
+        DisplayValue = 0;
+        StoredValue = 0;
+        op = CalcOp.None;
+    }
+```
+
+DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 초기 상태로 되돌립니다.
+
+---
+
+2-2. clickButton(..) 메서드 추가하기
+
+버튼을 클릭했을때 계산기 내에서 로직을 처리합니다.
+
+```
+    public void clickButton(string value)
+    {
+        switch (value)
+        {
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+                DisplayValue = DisplayValue * 10 + int.Parse(value); 
+                break;
+
+            case "+":
+                op = CalcOp.Plus;
+                StoredValue = DisplayValue;
+                DisplayValue = 0;
+                break;
+
+            case "-":
+                op = CalcOp.Minus;
+                StoredValue = DisplayValue;
+                DisplayValue = 0;
+                break;
+
+            case "=":
+                if (op == CalcOp.Plus)
+                {
+                    DisplayValue += StoredValue;
+                }
+                else if (op == CalcOp.Minus)
+                {
+                    DisplayValue = StoredValue - DisplayValue;
+                }
+                StoredValue = 0;
+                op = CalcOp.None;
+                break;
+            case "C":
+                Clear();
+                break;
+        }
+
+        writeStatus();
+        Notify?.Invoke();
+    }
+```
+
+- 연산자나 숫자에 따라 다른 로직을 처리합니다.
+
+- `Notify?.Invoke();` : CalcState 클래스의 상태 변경을 감지하고, 상태가 변경될 때마다 등록된 모든 이벤트 핸들러에 알립니다. 이를 통해 UI나 다른 컴포넌트에서 계산기의 상태 변화를 감지하고 적절히 처리할 수 있습니다.
+       
+  - `Invoke()` 메서드는 이벤트를 호출하는데 사용됩니다.
+
+---
+2-3. writeStatus() 매서드 추가하기
+   
+현재 계산기의 상태를 콘솔에 출력하는 메서드입니다. 
+
+```
+    private void writeStatus()
+    {
+        Console.WriteLine($"DisplayValue[{this.DisplayValue}] StoredValue[{this.StoredValue}] op[{this.op}]");
+    }
+```
+
+현재 DisplayValue, StoredValue, 그리고 선택된 연산자를 출력합니다. 
+
+<br/>
+
 ### 7. CalcComponent.razor 에서 컴포넌트 조합하여 계산기 완성하기
+
+마지막으로 앞에서 만든 컴포넌트들을 모두 조합하여 계산기를 완성해보겠습니다.
+
+1. 페이지 라우팅 경로, 렌더링 모드 설정 및 컴포넌트 가져오기
+
+```
+@page "/calc-component"
+@using BlazorCalc.Components.Calc 
+@rendermode InteractiveServer
+@inject CalcState calcState;
+```
+
+- `@using ..`: `BlazorCalc.Components.Calc` 네임스페이스를 사용하기 위해 필요합니다.
+
+---
+   
+2. 계산기 UI
+
+계산기의 UI 부분 코드를 추가해봅시다.
+
+```
+<h3>CalcComponent</h3>
+
+<CalcLabel />
+
+<div style="display:flex">
+    <CalcButton DataValue="7" />
+    <CalcButton DataValue="8" />
+    <CalcButton DataValue="9" />
+    <CalcButton DataValue="C" />
+</div>
+
+<div style="display:flex">
+    <CalcButton DataValue="4" />
+    <CalcButton DataValue="5" />
+    <CalcButton DataValue="6" />
+    <CalcButton DataValue="+" />
+</div>
+
+<div style="display:flex">
+    <CalcButton DataValue="1" />
+    <CalcButton DataValue="2" />
+    <CalcButton DataValue="3" />
+    <CalcButton DataValue="-" />
+</div>
+
+<div style="display:flex">
+    <CalcButton DataValue="" />
+    <CalcButton DataValue="0" />
+    <CalcButton DataValue="" />
+    <CalcButton DataValue="=" />
+</div>
+```
+- `<CalcLabel />` : CalcLabel 컴포넌트를 가져옵니다.
+- `<CalcButton DataValue= ... />` : DataValue 속성을 사용하여 버튼에 표시될 값을 지정합니다.
+
+---
+
+3. 계산기 초기상태 설정하기
+
+```
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        calcState.Clear();
+    }
+}
+```
+- 이 메서드는 Blazor 컴포넌트가 초기화될 때 호출됩니다.
+- 컴포넌트가 초기화될 때마다 계산기의 상태를 초기화하여 일관된 초기 상태를 유지하는 데 사용됩니다.
 
 <br/>
 
