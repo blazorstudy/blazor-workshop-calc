@@ -281,6 +281,8 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
 
 계산기에 숫자나 연산자를 나타내는 버튼을 표현하기 위한 컴포넌트를 만들어보겠습니다.
 
+**save-points/session2/BlazorCalc/Components/Calc/CalcButton.razor** 위치로 이동합니다.
+
 ```
 @inject CalcState calcState;
 
@@ -306,6 +308,11 @@ DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 �
   - 버튼의 텍스트는 `DataValue`로부터 가져옵니다.
 <br/><br/>
 ### 3. 버튼 스타일 적용하기
+
+**save-points/session2/BlazorCalc/Components/Calc/CalcButton.razor.css** 위치로 이동합니다.
+
+`CalcButton.razor` 파일의 스타일을 지정하는 파일입니다.
+
 ### 4. CalcLable.razor 파일 내용 구성하기
 ### 5. 계산 결과 표시하는 라벨 스타일 적용하기
 ### 6. CalcState.cs 파일 내용 구성하기
