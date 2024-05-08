@@ -23,7 +23,7 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 <br/><br/>
 ### 2. 페이지 라우팅 경로, 렌더링 모드 설정하기
 
-save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치로 이동합니다.
+save-points/session2/BlazorCalc/Components/Pages/CalcPage.razor 위치로 이동합니다.
 
 ```
 @page "/calc-page"
@@ -123,7 +123,142 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 
 ### 5. 각 메서드 정의하기
 
-ㄱㄴㄷㄷ
+이제 `@code{...}` 안의 내용을 채워보겠습니다.
+
+```
+    private enum CalcOp
+    {
+        None,
+        Plus,
+        Minus,
+    }
+    private int DisplayValue { get; set; } = 0;
+    private int StoredValue { get; set; } = 0;
+    private CalcOp op = CalcOp.None;
+```
+
+- `enum CalcOp` : 계산기의 연산자를 나타냅니다. Plus(덧셈), Minus(뺄셈), None(연산자 없음) 세 가지 값을 가질 수 있습니다.
+
+- `DisplayValue` : 현재 사용자에게 표시되는 숫자를 나타냅니다.
+
+- `StoredValue` : 현재 계산기에 저장된 숫자를 나타냅니다.
+
+- `op` : 현재 선택된 연산자를 나타냅니다. Plus가 선택되면 덧셈이, Minus가 선택되면 뺄셈이 수행됩니다. 위 코드에서 초기값으로 None(연산자 없음)이 들어가있습니다.
+
+---
+1. clickButton(int value) 메서드 추가하기
+   
+숫자 버튼이 클릭되었을 때 호출되는 메서드입니다. 
+
+```
+    private void clickButton(int value)
+    {
+        DisplayValue = DisplayValue * 10 + value;
+
+        writeStatus();
+    }
+```
+
+현재 DisplayValue에 사용자가 클릭한 숫자를 추가합니다.
+
+
+---
+2. clickPlus() 메서드 추가하기
+
+덧셈 버튼이 클릭되었을 때 호출되는 메서드입니다.
+
+```
+    private void clickPlus()
+    {
+        this.op = CalcOp.Plus;
+        StoredValue = DisplayValue;
+        DisplayValue = 0;
+
+        writeStatus();
+    }
+```
+
+현재 DisplayValue를 StoredValue에 저장하고, DisplayValue를 초기화한 후에 현재 연산자를 Plus로 설정합니다.
+
+---
+3. clickMinus() 메서드 추가하기
+
+뺄셈 버튼이 클릭되었을 때 호출되는 메서드입니다. 
+
+```
+    private void clickMinus()
+    {
+        this.op = CalcOp.Minus;
+        StoredValue = DisplayValue;
+        DisplayValue = 0;
+
+        writeStatus();
+    }
+```
+
+Plus와 비슷하지만, 현재 연산자를 Minus로 설정합니다.
+
+---
+4. clickResult() 메서드 추가하기
+
+결과(=) 버튼이 클릭되었을 때 호출되는 메서드입니다.
+
+```
+    private void clickResult()
+    {
+        if (op == CalcOp.Plus)
+        {
+            DisplayValue += StoredValue;
+        }
+        else if (op == CalcOp.Minus)
+        {
+            DisplayValue = StoredValue - DisplayValue;
+        }
+
+        StoredValue = 0;
+        op = CalcOp.None;
+
+        writeStatus();
+    }
+```
+
+현재 선택된 연산자에 따라 DisplayValue와 StoredValue를 이용하여 계산을 수행하고, 결과를 DisplayValue에 저장합니다.
+
+---
+5. clickClear() 매서드 추가하기
+
+초기화(C) 버튼이 클릭되었을 때 호출되는 메서드입니다. 
+
+```
+    private void clickClear()
+    {
+        StoredValue = 0;
+        op = CalcOp.None;
+        DisplayValue = 0;
+
+        writeStatus();
+    }
+```
+
+DisplayValue, StoredValue, 그리고 연산자를 초기화하여 계산기를 초기 상태로 되돌립니다.
+
+---
+6. writeStatus() 매서드 추가하기
+   
+현재 계산기의 상태를 콘솔에 출력하는 메서드입니다. 
+
+```
+    private void writeStatus()
+    {
+        Console.WriteLine($"DisplayValue[{this.DisplayValue}] StoredValue[{this.StoredValue}] op[{this.op}]");
+    }
+```
+
+현재 DisplayValue, StoredValue, 그리고 선택된 연산자를 출력합니다. 
+
+<br/><br/>
+### 🎉계산기가 완성되었습니다!!🎉
+<br/>
 
 ## 3. 다른 방법으로 계산기 만들기 실습하기
 
