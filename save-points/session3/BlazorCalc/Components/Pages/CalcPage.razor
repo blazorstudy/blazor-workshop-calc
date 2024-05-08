@@ -1,0 +1,117 @@
+﻿@page "/calc-page"
+@rendermode InteractiveServer
+
+<style>
+    .display-calc {
+        width: 320px;
+        text-align: right;
+        font-size: 32px;
+    }
+
+    .button-number {
+        height: 80px;
+        width: 80px;
+        background-color: lightskyblue;
+        font-size: 24px;
+    }
+</style>
+
+<h3>CalcPage</h3>
+
+<label class="display-calc">@this.DisplayValue</label>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(7)">7</button>
+    <button class="button-number" @onclick="() => clickButton(8)">8</button>
+    <button class="button-number" @onclick="() => clickButton(9)">9</button>
+    <button class="button-number" @onclick="clickClear">C</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(4)">4</button>
+    <button class="button-number" @onclick="() => clickButton(5)">5</button>
+    <button class="button-number" @onclick="() => clickButton(6)">6</button>
+    <button class="button-number" @onclick="clickPlus">+</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(1)">1</button>
+    <button class="button-number" @onclick="() => clickButton(2)">2</button>
+    <button class="button-number" @onclick="() => clickButton(3)">3</button>
+    <button class="button-number" @onclick="clickMinus">-</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number"></button>
+    <button class="button-number" @onclick="() => clickButton(0)">0</button>
+    <button class="button-number"></button>
+    <button class="button-number" @onclick="clickResult">=</button>
+</div>
+
+@code {
+    private enum CalcOp
+    {
+        None,
+        Plus,
+        Minus,
+    }
+    private int DisplayValue { get; set; } = 0;
+    private int StoredValue { get; set; } = 0;
+    private CalcOp op = CalcOp.None;
+
+    private void clickButton(int value)
+    {
+        DisplayValue = DisplayValue * 10 + value;
+
+        writeStatus();
+    }
+
+    private void clickPlus()
+    {
+        this.op = CalcOp.Plus;
+        StoredValue = DisplayValue;
+        DisplayValue = 0;
+
+        writeStatus();
+    }
+
+    private void clickMinus()
+    {
+        this.op = CalcOp.Minus;
+        StoredValue = DisplayValue;
+        DisplayValue = 0;
+
+        writeStatus();
+    }
+
+    private void clickResult()
+    {
+        if (op == CalcOp.Plus)
+        {
+            DisplayValue += StoredValue;
+        }
+        else if (op == CalcOp.Minus)
+        {
+            DisplayValue = StoredValue - DisplayValue;
+        }
+
+        StoredValue = 0;
+        op = CalcOp.None;
+
+        writeStatus();
+    }
+
+    private void clickClear()
+    {
+        StoredValue = 0;
+        op = CalcOp.None;
+        DisplayValue = 0;
+
+        writeStatus();
+    }
+
+    private void writeStatus()
+    {
+        Console.WriteLine($"DisplayValue[{this.DisplayValue}] StoredValue[{this.StoredValue}] op[{this.op}]");
+    }
+}

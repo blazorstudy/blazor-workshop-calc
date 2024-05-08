@@ -1,0 +1,89 @@
+﻿
+
+<style>
+    .display-calc {
+        width: 300px;
+        text-align: right;
+        font-size: 64px;
+    }
+
+    .button-number {
+        height: 120px;
+        width: 120px;
+        background-color: lightskyblue;
+        font-size: 24px;
+    }
+
+    .unit {
+        width: 50px;
+        height: 80px;
+        font-size: 64px;
+    }
+
+    #center {
+        text-align: center;
+    }
+
+    .currency {
+        width: 200px;
+        height: 30px;
+        font-size: 20px;
+    }
+
+</style>
+
+<PageTitle>Calc_Exchangerate</PageTitle>
+
+<h1> 환율 계산기 (달러, 엔화, 유로) </h1>
+<h5> [오늘의 환율] </h5>
+<label class="currency">@this.CurrencyValue_USD</label>
+<h6></h6>
+<label class="currency">@this.CurrencyValue_JPY</label>
+<h6></h6>
+<label class="currency">@this.CurrencyValue_EUR</label>
+
+<div style="display:flex">
+    <label class="display-calc">@this.ValueToDisplay.ToString("#,#0.####")</label>
+    <label class="unit" id="center">@this.UnitChanged</label>
+</div>
+
+<form>
+    <select name="UserChoice" @onchange="selectBox" value="@User_Select_Currency">
+        <option value="USD">USD-달러($)</option>
+        <option value="JP">JP-엔화(¥)</option>
+        <option value="EUR">EUR-유로(€)</option>
+    </select>
+</form>
+
+<div style="display:flex">
+    <label class="display-calc">@this.ValueUserClicked.ToString("#,#0.####")</label>
+    <label class="unit" id="center">@this.UnitWON</label>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(7)">7</button>
+    <button class="button-number" @onclick="() => clickButton(8)">8</button>
+    <button class="button-number" @onclick="() => clickButton(9)">9</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(4)">4</button>
+    <button class="button-number" @onclick="() => clickButton(5)">5</button>
+    <button class="button-number" @onclick="() => clickButton(6)">6</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="() => clickButton(1)">1</button>
+    <button class="button-number" @onclick="() => clickButton(2)">2</button>
+    <button class="button-number" @onclick="() => clickButton(3)">3</button>
+</div>
+
+<div style="display:flex">
+    <button class="button-number" @onclick="clickClear">C</button>
+    <button class="button-number" @onclick="() => clickButton(0)">0</button>
+    <button class="button-number"></button>
+</div>
+
+@code {
+
+}

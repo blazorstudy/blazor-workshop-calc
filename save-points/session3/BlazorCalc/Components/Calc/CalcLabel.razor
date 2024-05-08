@@ -1,0 +1,12 @@
+﻿@inject CalcState calcState;
+
+<label class="calc">@calcState.DisplayValue</label>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        calcState.Notify += () => InvokeAsync(StateHasChanged); 
+    }
+}

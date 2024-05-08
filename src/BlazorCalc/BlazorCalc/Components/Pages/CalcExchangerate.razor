@@ -6,7 +6,6 @@
 @using System.Net.Http
 @using System.Text.Json;
 @using System.Threading.Tasks;
-@using System;
 
 <style>
     .display-calc {
@@ -27,6 +26,7 @@
         height: 80px;
         font-size: 64px;
     }
+
     #center {
         text-align:center;
     }
@@ -94,15 +94,15 @@
     {
         public int result { get; set; }
         public string cur_unit { get; set; }
+        public string cur_nm { get; set; }
         public string ttb { get; set; }
         public string tts { get; set; }
         public string deal_bas_r { get; set; }
         public string bkpr { get; set; }
         public string yy_efee_r { get; set; }
         public string ten_dd_efee_r { get; set; }
-        public string kftc_bkpr { get; set; }
         public string kftc_deal_bas_r { get; set; }
-        public string cur_nm { get; set; }
+        public string kftc_bkpr { get; set; }
     }
 
     private string User_Select_Currency { get; set; } = "USD";
@@ -114,7 +114,7 @@
     private float ConvertToCal_EUR { get; set; } = 0;
 
     private string UnitWON { get; set; } = "\u20A9"; 
-    private string UnitChanged { get; set; } = " ";
+    private string UnitChanged { get; set; } = "$";
 
     private string CurrencyValue_USD { get; set; } = "";
     private string CurrencyValue_JPY { get; set; } = ""; 
@@ -131,12 +131,12 @@
         string authKey = Configuration["ApiAuthKey"] ?? string.Empty;
         string requestUrl = $"https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={authKey}&searchdate={currentDate}&data=AP01";
 
-
         var exchangeRates = await HttpClient.GetFromJsonAsync<ExchangeRate[]>(requestUrl);
-
+        
         var usd = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "USD");
         var eur = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "EUR");
         var jpy = exchangeRates?.FirstOrDefault(r => r.result == 1 && r.cur_unit == "JPY(100)");
+        
         if (usd != null)
         {
             ConvertToCal_USD = float.Parse(usd.deal_bas_r);
@@ -206,26 +206,20 @@
         await getExchangeJson();
         switch (User_Select_Currency)
         {
-
             case "USD":
-                UnitChanged = "$";
                 ValueToDisplay = ValueUserClicked / ConvertToCal_USD;
                 break;
             case "JP":
-                UnitChanged = "¥";
                 ValueToDisplay= ValueUserClicked/ ConvertToCal_JPY*100;
                 break;
             case "EUR":
-                UnitChanged = "€";
                 ValueToDisplay= ValueUserClicked/ ConvertToCal_EUR;
                 break;
             default:
-                UnitChanged = " ";
                 Console.WriteLine("Not supported");
                 break;
         }
         StateHasChanged();
-
         writeStatus();
     }
 
