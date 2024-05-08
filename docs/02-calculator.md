@@ -10,19 +10,22 @@
 * [Visual Studio Code 설치하기](https://code.visualstudio.com/download)
 * [C# Dev Kit 익스텐션 설치하기](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 * [.NET SDK 8.0 설치하기](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
----
 
 ## 2. CalcPage.razor 파일에서 실습하기
+###1. 시작하기
+
+원하는 경로에 레포지토리를 복사하고
+```
+$ git clone https://github.com/hackersground-kr/blazor-workshop-prototype.git
+```
+
+"save-points" 폴더에 각 세션별로 준비가 되어 있습니다. [session2](https://github.com/blazorstudy/blazor-workshop-calc/tree/main/save-points/session2)를 찾아보세요
+
+###2. 
+
+###3. 스타일 적용하기
 
 
+## 3. 다른 방법으로 계산기 만들기 실습하기
 
-## 3. GitHub Codespaces 개발 환경 확인
-
-
-
-## 4. 애저 Dev CLI 로그인
-
-
-
-## 5. 애저 CLI 로그인
 
