@@ -16,7 +16,7 @@
 
 원하는 경로에 레포지토리를 복사하고
 ```
-$ git clone https://github.com/hackersground-kr/blazor-workshop-prototype.git
+$ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 ```
 
 "save-points" 폴더에 각 세션별로 준비가 되어 있습니다. [session2](https://github.com/blazorstudy/blazor-workshop-calc/tree/main/save-points/session2)를 찾아보세요
