@@ -120,6 +120,10 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 <br/>
 - 연산자 버튼 및 초기화 버튼 : 덧셈(+), 뺄셈(-), 등호(=), 초기화(C) 버튼은 클릭 이벤트에 따라 해당 기능을 수행하는 C# 메서드가 정의되어 있습니다.
 <br/><br/>
+### 5. 각 메서드 정의하기
+
+ㄱㄴㄷㄷ
+
 ## 3. 다른 방법으로 계산기 만들기 실습하기
 
 
