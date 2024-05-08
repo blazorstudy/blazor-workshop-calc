@@ -34,13 +34,13 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 `CalcPage.razor` 파일 상단에 위 내용을 추가해줍니다.
 
 
-@page "/calc-page"
+- @page "/calc-page"
 
-Razor 페이지의 경로를 지정합니다.
+  - Razor 페이지의 경로를 지정합니다.
 
-@rendermode InteractiveServer
+- @rendermode InteractiveServer
 
-사용자와 상호작용하는 동안 서버에 요청을 보내어 렌더링 합니다.
+  - 사용자와 상호작용하는 동안 서버에 요청을 보내어 렌더링 합니다.
 
 ---
 
