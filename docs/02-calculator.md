@@ -23,7 +23,7 @@ $ git clone https://github.com/blazorstudy/blazor-workshop-calc.git
 
 ---
 
-### 2. 페이지 라우팅 경로, 렌더링 모드 설정 작업
+### 2. 페이지 라우팅 경로, 렌더링 모드 설정하기
 
 save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치로 이동합니다.
 
@@ -45,6 +45,7 @@ save-points/session2/BlazorCalc_session2/Components/Pages/CalcPage.razor 위치�
 ---
 
 ### 3. 스타일 적용하기
+
 
 
 ## 3. 다른 방법으로 계산기 만들기 실습하기
